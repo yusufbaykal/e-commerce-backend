@@ -7,6 +7,10 @@
 var app = require('../app');
 var debug = require('debug')('api:server');
 var http = require('http');
+var mongoose = require('mongoose');
+const {MONGODB_URI} = require('../config');
+const Database = require('../db/database');
+
 
 /**
  * Get port from environment and store in Express.
@@ -87,4 +91,7 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+
+  // Connect to MongoDB
+  new Database().connect({MONGODB_URI});
 }

@@ -1,9 +1,18 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+const fs = require('fs'); 
+let routes = fs.readdirSync(__dirname);
 
-module.exports = router;
+for (let route of routes) {
+  if (route.endsWith('.js') && route !== 'index.js') {
+    const routePath = require('./' + route);
+    if (typeof routePath === 'function') { 
+      router.use('/' + route.replace('.js', ''), routePath);
+    } else {
+      console.error(`${route} is not a valid route`);
+    }
+  }
+}
+
+module.exports = router; 
