@@ -43,6 +43,59 @@ router.post('/create', async (req, res) => {
 }
 );
 
+router.put('/update', async (req, res) => {
+    const body = req.body;
+    try {
+        if (!body.id) {
+            return res.status(400).json(Response.ErrorResponse(400, "Missing Fields", "Missing field: id"));
+        }
+
+        const UpdatedProduct = await Product.findByIdAndUpdate(body.id, {
+            name: body.name,
+            price: body.price,
+            description: body.description,
+            category: body.category,
+            category_id: body.category_id,
+            image: body.image,
+            stock: body.stock,
+            is_active: body.is_active
+        }, { new: true });
+
+        if (!UpdatedProduct) {
+            return res.status(404).json(Response.ErrorResponse(404, "Product Not Found", "No product found with the provided id"));
+        }
+
+        res.json(Response.SuccessResponse(200, "Updated Product Successfully", UpdatedProduct));
+
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).json(Response.ErrorResponse(500, 'Update Product Failed', err.message));
+    }
+}
+);
+
+router.delete('/delete', async (req, res) => {
+    const body = req.body;
+    try {
+        if (!body.id) {
+            return res.status(400).json(Response.ErrorResponse(400, "Missing Fields", "Missing field: id"));
+        }
+
+        const DeletedProduct = await Product.findByIdAndDelete(body.id);
+
+        if (!DeletedProduct) {
+            return res.status(404).json(Response.ErrorResponse(404, "Product Not Found", "No product found with the provided id"));
+        }
+
+        res.json(Response.SuccessResponse(200, "Deleted Product Successfully"));
+
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).json(Response.ErrorResponse(500, 'Delete Product Failed', err.message));
+    }
+}
+);
+
 
 
 module.exports = router;  

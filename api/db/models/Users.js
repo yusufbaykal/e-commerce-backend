@@ -22,6 +22,16 @@ const schema = mongoose.Schema({
 
 class Users extends mongoose.model{
 
+
+  validPassword(password) {
+    return bcrypt.compareSync(password, this.password);
+  }
+
+  static validateFieldsBeforeAuth(email, password) {
+    if (typeof password !== 'string' || password.length < 8 || is.not.email(email))
+      return "Invalid email or password";
+    return null;
+    }
   }
 
   schema.loadClass(Users);

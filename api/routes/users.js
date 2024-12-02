@@ -1,7 +1,68 @@
-var express = require('express');
-var router = express.Router();
-var Users = require('../db/models/Users');
+const express = require('express');
+const router = express.Router();
 const { validateUsers, checkUserEmailExists, checkEmailControl} = require('../controllers/users');
+const bcrypt = require('bcrypt-nodejs');
+const jwt = require('jwt-simple');
+const auth = require('../lib/auth');
+const Users = require('../db/models/Users');
+const config = require('../config');
+
+
+router.get('/login',async (req, res) => {
+  try{
+
+    let {email, password} = req.body;
+    Users.validateFieldsBeforeAuth(email, password);
+    let user = await Users.findOne({email: email});
+
+    let payload = {
+      id: user._id,
+      exp: parseInt(Date.now() / 1000) * config.JWT.EXPIRES_TIME
+    }
+
+    let token = jwt.encode(payload, config.JWT.SECRET);
+    res.json({status: 200, message: "Auth Successful", token: token});
+    
+  }
+  catch(err){
+    console.error("Error:", err);
+    return res.status(500).json({status: 500,message: 'Auth Failed',error: err.message});
+  }
+});
+
+router.get('/me', auth().authenticate(), async (req, res) => {
+  try {
+
+    const user = await Users.findOne({ _id: req.user.id });
+
+    if (!user) {
+      return res.status(404).json({ status: 404, message: 'User not found' });
+    }
+
+    res.json({
+      status: 200,
+      message: 'User data retrieved successfully',
+      data: {
+        id: user._id,
+        email: user.email,
+        password: user.password,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        phone_number: user.phone_number,
+        adres: {
+          street: user.adres.street,
+          city: user.adres.city,
+          state: user.adres.state,
+          zip: user.adres.zip,
+          country: user.adres.country
+        }
+      }
+    });
+  } catch (err) {
+    console.error("Error:", err);
+    return res.status(500).json({ status: 500, message: 'Get User Failed', error: err.message });
+  }
+});
 
 
 router.post('/register', async (req, res) => {
@@ -41,9 +102,11 @@ router.post('/register', async (req, res) => {
       });
     }
 
+    let password = bcrypt.hashSync(body.password, bcrypt.genSaltSync(10), null);
+  
     let CreatedUsers = await Users.create({
       email: body.email,
-      password: body.password,
+      password: password,
       is_active: true,
       first_name: body.first_name,
       last_name: body.last_name,
