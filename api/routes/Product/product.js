@@ -1,29 +1,29 @@
 const express = require('express');
 const router = express.Router();
-const { createCategory, updateCategory, deleteCategory } = require('../controllers/Category/Category');
+const { createProduct, updateProduct, deleteProduct, getProducts, getProductById } = require('../../controllers/Product/Product');
 
 router.post('/create', async (req, res) => {
     try {
-        await createCategory(req, res);
+        await createProduct(req, res);
     }
     catch (err) {
-    }
+    }    
 });
 
 router.put('/update', async (req, res) => {
     try {
-        await updateCategory(req, res);
+        await updateProduct(req, res);
     }
     catch (err) {
-    }
+    }    
 });
 
 router.delete('/delete', async (req, res) => {
     try {
-        await deleteCategory(req, res);
+        await deleteProduct(req, res);
     }
     catch (err) {
-    }
+    }    
 });
 
-module.exports = router;
+module.exports = router;  

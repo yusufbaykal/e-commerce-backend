@@ -10,15 +10,9 @@ const schema = mongoose.Schema({
     image: {type:String, required:true},
     stock: {type:Number, required:true},
 },{
-    timestamps: {
-        createdAt: 'created_at',
-        updatedAt: 'updated'
-    }
+    timestamps: true
 });
 
-class Product extends mongoose.model{
-    
-    }
 
-schema.loadClass(Product);
-module.exports = mongoose.model('Product', schema);
+const Product = mongoose.model('Product', schema);
+module.exports = Product;

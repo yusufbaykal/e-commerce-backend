@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const UserControllers = require('../controllers/Users/Users');
-const auth = require('../lib/auth');
+const UserControllers = require('../../controllers/Users/Users');
+const auth = require('../../middleware/auth');
 
 router.get('/login', async (req, res) => {
 

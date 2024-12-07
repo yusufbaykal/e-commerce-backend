@@ -12,10 +12,7 @@ const schema = mongoose.Schema({
     is_active: {type:Boolean, default:true},
     payment_id: {type:mongoose.Schema.Types.ObjectId, ref:'Payment'},
 },{
-    timestamps:{
-        createdAt: 'created_at',
-        updatedAt: 'updated_at'
-    }
+    timestamps: true
 });
 
 class Orders extends mongoose.model{

@@ -4,10 +4,7 @@ const schema = mongoose.Schema({
     name : {type:String, required:true},
     is_active : {type:Boolean, default:true}
 },{
-    timestamps:{
-        createdAt: 'created_at',
-        updatedAt: 'updated'
-    }
+    timestamps: true
 });
 
 class Category extends mongoose.model{

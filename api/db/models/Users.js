@@ -16,10 +16,7 @@ const schema = mongoose.Schema({
     country: {type:String, required:true},
   }
 },{
-  timestamps:{
-    createdAt: 'created_at',
-    updatedAt: 'updated_at'
-  }
+  timestamps: true
 });
 
 class Users extends mongoose.model{
