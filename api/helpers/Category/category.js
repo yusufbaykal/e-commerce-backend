@@ -1,4 +1,4 @@
-const Category = require('../db/models/Category')
+const Category = require('../../db/models/Category')
 const schemaKeys = Object.keys(Category.schema.obj).filter(key => key !== '_id');
 
 const validateCategory = (body) => {

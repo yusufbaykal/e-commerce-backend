@@ -1,4 +1,4 @@
-const Users = require('../db/models/Users');
+const Users = require('../../db/models/Users');
 const is = require('is_js');
 
 const schemaKeys = Object.keys(Users.schema.obj).filter(key => key !== '_id');
@@ -39,21 +39,32 @@ const checkEmailControl = async (email) => {
       const userEmailValid = is.email(email);
       
       if (!userEmailValid) {
-        return {
-          exists: false,
-          message: "Email is not valid.",
-        };
+        return {exists: false,message: "Email is not valid.",};
       }
 
-      return {
-        exists: true,
-        message: "Email is valid.",
+      return {exists: true,message: "Email is valid.",
       };
 
     }
     catch (error) {
         throw new Error("Error checking user email: " + error.message);
     }
-}
+};
 
-module.exports = { validateUsers, checkUserEmailExists, checkEmailControl };
+
+const checkuserControl = async (email) => {
+    try {
+        const user = await Users.findOne({ email });
+        if (user) {
+            return { exists: true, message: "User found" };
+        }
+        return { exists: false, message: "User not found" };
+    } catch (error) {
+        throw new Error("Error checking user: " + error.message);
+    }
+};
+
+
+        
+
+module.exports = { validateUsers, checkUserEmailExists, checkEmailControl,  checkuserControl };

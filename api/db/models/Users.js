@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt-nodejs');
+const is = require('is_js');
 
 const schema = mongoose.Schema({
   email: {type:String, required:true, unique:true},
