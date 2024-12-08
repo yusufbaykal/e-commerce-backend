@@ -9,6 +9,7 @@ const schema = mongoose.Schema({
     category_id: {type:mongoose.Schema.Types.ObjectId, ref:'Category'},
     image: {type:String, required:true},
     stock: {type:Number, required:true},
+    seller_id: {type:mongoose.Schema.Types.ObjectId, ref:'Seller'},
 },{
     timestamps: true
 });

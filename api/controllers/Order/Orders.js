@@ -18,11 +18,7 @@ const OrderAdd = async (req, res) => {
                 country: body.shipping_address.country
             },
             is_active: true,
-            items: {
-                product_id: body.items.product_id,
-                quantity: body.items.quantity,
-                total_price: body.items.total_price
-            },
+            items: body.items
         });
 
         res.json(Response.SuccessResponse(200, "Created Order Successfully", CreatedOrder));
@@ -33,4 +29,33 @@ const OrderAdd = async (req, res) => {
     }
 };
 
-module.exports = {OrderAdd};  
+
+
+
+
+
+
+
+
+
+
+
+
+
+const deleteOrder = async (req, res) => {
+    try {
+        const { orderId } = req.params;
+        const order = await Orders.findByIdAndUpdate(orderId, { is_active: false }, { new: true });
+
+        if (!order) {
+            return res.status(404).json(Response.ErrorResponse(404, 'Order not found'));
+        }
+
+        res.json(Response.SuccessResponse(200, 'Order archived successfully', order));
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json(Response.ErrorResponse(500, 'Delete Order Failed', err.message));
+    }
+};
+
+module.exports = {OrderAdd,deleteOrder};  

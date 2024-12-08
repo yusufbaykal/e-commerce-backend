@@ -1,5 +1,4 @@
 const express = require('express');
-const router = express.Router();
 const Product = require('../../db/models/Product');
 const Response = require('../../lib/Response');
 const { validateProduct, checkProductNameExists } = require('../../helpers/Product/Product');
@@ -23,15 +22,18 @@ const createProduct = async (req, res) => {
             return res.status(400).json(Response.ErrorResponse(400, "Product Exists", productExists.message));
         }
 
+        const image_file = req.file ? req.file.path : null;
+        
         const CreatedProduct = await Product.create({
             name: body.name,
             price: body.price,
             description: body.description,
             category: body.category,
             category_id: body.category_id,
-            image: body.image,
+            image: image_file,
             stock: body.stock,
-            is_active: true
+            is_active: true,
+            seller_id: body.seller_id
         });
 
         res.json(Response.SuccessResponse(200, "Created Product Successfully", CreatedProduct));
@@ -49,15 +51,18 @@ const updateProduct = async (req, res) => {
             return res.status(400).json(Response.ErrorResponse(400, "Missing Fields", "Missing field: id"));
         }
 
+        const image = req.file? req.file.path : null;
+
         const UpdatedProduct = await Product.findByIdAndUpdate(body.id, {
             name: body.name,
             price: body.price,
             description: body.description,
             category: body.category,
             category_id: body.category_id,
-            image: body.image,
+            image: image,
             stock: body.stock,
-            is_active: body.is_active
+            is_active: body.is_active,
+            seller_id: body.seller_id
         }, { new: true });
 
         if (!UpdatedProduct) {

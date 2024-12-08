@@ -2,12 +2,16 @@ const mongoose  = require('mongoose');
 
 const schema = mongoose.Schema({
     user_id: {type:mongoose.Schema.Types.ObjectId, ref:'Users'},
-    items: {
-        product_id: {type:mongoose.Schema.Types.ObjectId, ref:'Product'},
-        quantity: {type:Number, required:true},
-        total_price: {type:Number, required:true},
+    items: [{
+        product_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+        quantity: { type: Number, required: true },
+        total_price: { type: Number, required: true },
+    }],
+    status: {
+        type: String,
+        required: true,
+        enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'],
     },
-    status: {type:String,required:true},
     shipping_address: {
         street: {type:String, required:true},
         city: {type:String, required:true},

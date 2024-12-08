@@ -15,6 +15,7 @@ var cartRouter = require('./routes/Cart/Carts');
 var categoryRouter = require('./routes/Category/category');
 var OrderRouter = require('./routes/Order/Orders');
 var PaymentRouter = require('./routes/Payment/Payment');
+var SellerRouter = require('./routes/Seller/Seller');
 const { mongo } = require('mongoose');
 
 var app = express();
@@ -29,12 +30,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/api/carts', cartRouter);
 app.use('/api/product', productsRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/orders', OrderRouter);
 app.use('/api/payment', PaymentRouter);
+app.use('/api/seller', SellerRouter);
 
 
 
