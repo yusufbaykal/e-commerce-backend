@@ -3,7 +3,7 @@ const router = express.Router();
 const { validateUsers, checkUserEmailExists, checkEmailControl, checkuserControl} = require('../../helpers/Users/Users');
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jwt-simple');
-const auth = require('../../middleware/auth');
+const auth = require('../../middleware/Auth/auth');
 const Users = require('../../db/models/Users');
 const config = require('../../config');
 

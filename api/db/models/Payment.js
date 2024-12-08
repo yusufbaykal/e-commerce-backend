@@ -1,23 +1,26 @@
+const { stat } = require('fs');
 const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
     user_id: {type:mongoose.Schema.Types.ObjectId, ref:'Users'},
-    items: {
-        product_id: {type:mongoose.Schema.Types.ObjectId, ref:'Product'},
-        quantity: {type:Number, required:true},
-        total_price: {type:Number, required:true},
-    },
-    status: {type:String, required:true},
-    shipping_address: {type:String, required:true},
-    is_active: {type:Boolean, default:true},
-    payment_id: {type:mongoose.Schema.Types.ObjectId, ref:'Payment'},
+    order_id: {type:mongoose.Schema.Types.ObjectId, ref:'Orders'},
+    amount: {type:Number, required:true},
+    currency: {type:String, required:true},
+    status: {type:String, enum: ['Completed', 'Pending', 'Failed', 'Refunded'], required:true},
+    payment_method: {type:String, enum: ['credit_card','bank_transfer','paypal'], required:true},
+    transaction_id: {type:String, required:true},
+    refund: {
+        status: {type:String},
+        refund_amount: {type:Number},
+        refund_date: {type:Date}
+    }
 },{
     timestamps: true
 });
 
-class Orders extends mongoose.model{
+class Payment extends mongoose.model{
         
         }
 
-schema.loadClass(Orders);
-module.exports = mongoose.model('Orders', schema);
+schema.loadClass(Payment);
+module.exports = mongoose.model('Payment', schema);

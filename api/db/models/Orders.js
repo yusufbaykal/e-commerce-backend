@@ -7,10 +7,23 @@ const schema = mongoose.Schema({
         quantity: {type:Number, required:true},
         total_price: {type:Number, required:true},
     },
-    status: {type:String, required:true},
-    shipping_address: {type:String, required:true},
-    is_active: {type:Boolean, default:true},
-    payment_id: {type:mongoose.Schema.Types.ObjectId, ref:'Payment'},
+    status: {type:String,required:true},
+    shipping_address: {
+        street: {type:String, required:true},
+        city: {type:String, required:true},
+        state: {type:String, required:true},
+        zip: {type:String, required:true},
+        country: {type:String, required:true},
+      },
+    is_active: {type:Boolean, default:true}
 },{
     timestamps: true
 });
+
+
+class Orders extends mongoose.model{
+    
+}
+
+schema.loadClass(Orders);
+module.exports = mongoose.model('Orders', schema);

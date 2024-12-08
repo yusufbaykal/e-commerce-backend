@@ -13,6 +13,8 @@ var usersRouter = require('./routes/Users/users');
 var productsRouter = require('./routes/Product/product');
 var cartRouter = require('./routes/Cart/Carts');
 var categoryRouter = require('./routes/Category/category');
+var OrderRouter = require('./routes/Order/Orders');
+var PaymentRouter = require('./routes/Payment/Payment');
 const { mongo } = require('mongoose');
 
 var app = express();
@@ -31,6 +33,8 @@ app.use('/api/carts', cartRouter);
 app.use('/api/product', productsRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/orders', OrderRouter);
+app.use('/api/payment', PaymentRouter);
 
 
 
