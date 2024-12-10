@@ -23,7 +23,8 @@ const SellerAdd = async (req, res) => {
                 zip: body.address.zip,
                 country: body.address.country
             },
-            is_active: true
+            is_active: true,
+            roles: "SELLER"
         });
 
         res.json(Response.SuccessResponse(200, "Created Seller Successfully", CreatedSeller));

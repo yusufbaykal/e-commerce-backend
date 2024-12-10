@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 const is = require('is_js');
+const { roles } = require('../../config/Role/rolePermissions');
 
 const schema = mongoose.Schema({
   email: {type:String, required:true, unique:true},
@@ -14,7 +15,8 @@ const schema = mongoose.Schema({
     state: {type:String, required:true},
     zip: {type:String, required:true},
     country: {type:String, required:true},
-  }
+  },
+  roles: {type:String, required:true, enum: roles.map(role => role.id)},
 },{
   timestamps: true
 });

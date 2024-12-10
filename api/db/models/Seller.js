@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { roles } = require('../../config/Role/rolePermissions');
 
 const schema = new mongoose.Schema({
     name: { type: String, required: true }, 
@@ -13,7 +14,8 @@ const schema = new mongoose.Schema({
         country: { type: String, required: true },
     },
     is_verified: { type: Boolean, default: false }, 
-    store_name: { type: String, required: true }, 
+    store_name: { type: String, required: true },
+    roles: { type: String, required: true, enum: roles.map(role => role.id === "SELLER") } 
 }, { timestamps: true });
 
 

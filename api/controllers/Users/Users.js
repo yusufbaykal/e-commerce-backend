@@ -6,6 +6,7 @@ const jwt = require('jwt-simple');
 const auth = require('../../middleware/Auth/auth');
 const Users = require('../../db/models/Users');
 const config = require('../../config');
+const { roles } = require('../../config/Role/rolePermissions');
 
 
 
@@ -34,9 +35,8 @@ const userLogin = async (req, res) => {
 
 const userMe = async (req, res) => {
     try {
-
         const user = await Users.findOne({ _id: req.user.id });
-    
+
         if (!user) {
           return res.status(404).json({ status: 404, message: 'User not found' });
         }
@@ -57,7 +57,8 @@ const userMe = async (req, res) => {
               state: user.adres.state,
               zip: user.adres.zip,
               country: user.adres.country
-            }
+            },
+            roles: user.roles
           }
         });
       } catch (err) {
@@ -109,7 +110,8 @@ const userRegister = async (req, res) => {
                 state: body.adres.state,
                 zip: body.adres.zip,
                 country: body.adres.country
-            }
+            },
+            roles: body.roles
         });
 
         return res.json({ status: 200, message: 'Created Users Successfully' });
@@ -147,7 +149,8 @@ const updatadUser = async (req, res) => {
                 state: body.adres.state,
                 zip: body.adres.zip,
                 country: body.adres.country
-            }
+            },
+            roles: body.roles
         });
 
         if (updateUser.nModified === 0) {

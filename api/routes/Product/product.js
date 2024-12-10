@@ -2,11 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { createProduct, updateProduct, deleteProduct, getProducts, getProductById } = require('../../controllers/Product/Product');
 const upload = require('../../middleware/Image/Image');
+const PermissionAuthorize = require('../../middleware/Roles/Role');
+const auth = require('../../middleware/Auth/auth');
 
-router.post('/create',upload.single('image'),async (req, res) => {
-    console.log("body",req.body);
-    console.log("file",req.file);
-    
+router.post('/create',auth().authenticate(),PermissionAuthorize('product_add'),upload.single('image'),async (req, res) => {
     if (!req.body.image) {
         req.body.image = req.file ? req.file.path : null;
     }
