@@ -1,6 +1,6 @@
 const expres = require('express');
 const router = expres.Router();
-const Payment = require('../../db/models/Payment');
+const Payment = require('../../db/models/Payment/Payment');
 const Response = require('../../lib/Response');
 
 const PaymentAdd = async (req, res) => {

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Cart = require('../../db/models/Cart');
-const Product = require('../../db/models/Product');
+const Cart = require('../../db/models//Cart/Cart');
+const Product = require('../../db/models/Product/Product');
 const Response = require('../../lib/Response');
 
 const addCart = async (req, res) => {

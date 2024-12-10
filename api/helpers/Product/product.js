@@ -1,4 +1,4 @@
-const Product = require('../../db/models/Product');
+const Product = require('../../db/models/Product/Product');
 
 const schemaKeys = Object.keys(Product.schema.obj).filter((key) => key !== '_id');
 

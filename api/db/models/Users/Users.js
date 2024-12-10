@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 const is = require('is_js');
-const { roles } = require('../../config/Role/rolePermissions');
+const { roles } = require('../../../config/Role/rolePermissions');
 
 const schema = mongoose.Schema(
   {

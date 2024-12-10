@@ -9,7 +9,7 @@ const {
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jwt-simple');
 const auth = require('../../middleware/Auth/auth');
-const Users = require('../../db/models/Users');
+const Users = require('../../db/models/Users/Users');
 const config = require('../../config');
 const { roles } = require('../../config/Role/rolePermissions');
 

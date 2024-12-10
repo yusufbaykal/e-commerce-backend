@@ -5,7 +5,7 @@ module.exports = {
     { key: 'user_update', name: 'Update Users', description: 'Permission to update users.' },
     { key: 'user_delete', name: 'Delete Users', description: 'Permission to delete users.' },
 
-    { key: 'product_view', name: 'View Products', description: 'Permission to view products.' },
+    { key: 'product_view_all', name: 'View Products', description: 'Permission to view products.' },
     { key: 'product_add', name: 'Add Products', description: 'Permission to add products.' },
     { key: 'product_update', name: 'Update Products', description: 'Permission to update products.' },
     { key: 'product_delete', name: 'Delete Products', description: 'Permission to delete products.' },

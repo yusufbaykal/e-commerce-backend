@@ -1,9 +1,10 @@
 const express = require('express');
-const Seller = require('../../db/models/Seller');
+const Seller = require('../../db/models/Seller/Seller');
 const Response = require('../../lib/Response');
 const bcrypt = require('bcrypt-nodejs');
-const Product = require('../../db/models/Product');
+const Product = require('../../db/models/Product/Product');
 const mongoose = require('mongoose');
+const Orders = require('../../db/models/Orders/Orders');
 
 const SellerAdd = async (req, res) => {
   let body = req.body;
@@ -54,4 +55,29 @@ const GetAllProduct = async (req, res) => {
   }
 };
 
-module.exports = { SellerAdd, GetAllProduct };
+const GetAllOrder = async (req, res) => {
+  try {
+    const sellerId = req.params.sellerId;
+    if (!mongoose.Types.ObjectId.isValid(sellerId)) {
+      return res.status(400).json(Response.ErrorResponse(400, 'Invalid seller ID format', ''));
+    }
+
+    const products = await Product.find({ seller_id: sellerId });
+    const productIds = products.map((product) => product._id);
+
+    const orders = await Orders.find({'items.product_id': {$in: productIds }});
+
+    if (orders.length === 0) {
+      return res.status(404).json(Response.ErrorResponse(404, 'No orders found for this seller', ''));
+    }
+
+    res.json(Response.SuccessResponse(200, 'All Orders for Seller', orders));
+
+  }
+  catch (err) {
+    console.error('Error:', err);
+    res.status(500).json(Response.ErrorResponse(500, 'Get All Orders for Seller Failed', err.message));
+  }
+};
+
+module.exports = { SellerAdd, GetAllProduct, GetAllOrder };

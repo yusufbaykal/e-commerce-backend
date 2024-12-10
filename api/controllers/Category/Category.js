@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Category = require('../../db/models/Category');
+const Category = require('../../db/models/Category/Category');
 const Response = require('../../lib/Response');
 const { validateCategory } = require('../../helpers/Category/category');
 

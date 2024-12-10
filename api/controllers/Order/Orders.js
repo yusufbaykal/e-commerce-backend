@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Orders = require('../../db/models/Orders');
+const Orders = require('../../db/models/Orders/Orders');
 const Response = require('../../lib/Response');
 
 const OrderAdd = async (req, res) => {

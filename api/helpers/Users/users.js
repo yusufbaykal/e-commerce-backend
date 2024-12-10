@@ -1,4 +1,4 @@
-const Users = require('../../db/models/Users');
+const Users = require('../../db/models/Users/Users');
 const is = require('is_js');
 
 const schemaKeys = Object.keys(Users.schema.obj).filter((key) => key !== '_id');

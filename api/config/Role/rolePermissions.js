@@ -14,7 +14,7 @@ const roles = [
   {
     id: 'SELLER',
     name: 'Seller',
-    role_permissions: ['product_view', 'product_add', 'order_view', 'payment_view'],
+    role_permissions: ['product_view_all', 'product_add', 'product_update','product_delete','order_view', 'category_add','category_update','category_delete','payment_view'],
   },
 ];
 

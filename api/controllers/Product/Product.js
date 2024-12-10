@@ -1,5 +1,5 @@
 const express = require('express');
-const Product = require('../../db/models/Product');
+const Product = require('../../db/models/Product/Product');
 const Response = require('../../lib/Response');
 const { validateProduct, checkProductNameExists } = require('../../helpers/Product/Product');
 
