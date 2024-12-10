@@ -1,0 +1,22 @@
+{
+  "env": {
+    "browser": true,
+    "es2022": true,
+    "jest": true
+  },
+  "extends": [
+    "airbnb-base/legacy", 
+    "prettier", 
+    "eslint:recommended" 
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest", 
+    "sourceType": "module" 
+  },
+  "plugins": ["prettier"], 
+  "rules": {
+    "prettier/prettier": "error", 
+    "no-console": "off", 
+    "max-classes-per-file": ["error", 2]
+  }
+}

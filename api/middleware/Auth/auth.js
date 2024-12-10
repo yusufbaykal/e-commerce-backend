@@ -1,13 +1,13 @@
 const passport = require('passport');
 const { Strategy, ExtractJwt } = require('passport-jwt');
-const Users = require('../../db/models/Users'); 
-const config = require('../../config'); 
+const Users = require('../../db/models/Users');
+const config = require('../../config');
 
 module.exports = function () {
   let strategy = new Strategy(
     {
       secretOrKey: config.JWT.SECRET,
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), 
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     },
     async (payload, done) => {
       try {
@@ -21,26 +21,25 @@ module.exports = function () {
             last_name: user.last_name,
             phone_number: user.phone_number,
             adres: user.adres,
-            roles: user.roles
+            roles: user.roles,
           });
         } else {
-
           done(new Error('User not found'), null);
         }
       } catch (error) {
         done(error, null);
       }
-    }
+    },
   );
 
   passport.use(strategy);
 
   return {
     initialize: function () {
-      return passport.initialize(); 
+      return passport.initialize();
     },
     authenticate: function () {
-      return passport.authenticate('jwt', { session: false }); 
+      return passport.authenticate('jwt', { session: false });
     },
   };
 };
