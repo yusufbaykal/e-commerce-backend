@@ -4,17 +4,39 @@ const is = require('is_js');
 const schemaKeys = Object.keys(Users.schema.obj).filter((key) => key !== '_id');
 
 const validateUsers = (body) => {
-  const bodyKeys = Object.keys(body);
+  const requiredFields = ['email', 'password', 'first_name', 'last_name', 'phone_number', 'adres'];
+  const missingFields = requiredFields.filter(field => !body[field]);
 
-  const invalidKeys = bodyKeys.filter((key) => !schemaKeys.includes(key));
-  if (invalidKeys.length > 0) {
-    return { type: 'invalidFields', keys: invalidKeys };
+  if (missingFields.length > 0) {
+    return {
+      type: 'missingFields',
+      keys: missingFields
+    };
   }
 
-  const missingKeys = schemaKeys.filter((key) => !bodyKeys.includes(key));
-  if (missingKeys.length > 0) {
-    return { type: 'missingFields', keys: missingKeys };
+  const invalidFields = [];
+  if (!is.email(body.email)) invalidFields.push('email');
+  if (typeof body.password !== 'string' || body.password.length < 8) invalidFields.push('password');
+  if (typeof body.first_name !== 'string') invalidFields.push('first_name');
+  if (typeof body.last_name !== 'string') invalidFields.push('last_name');
+  if (typeof body.phone_number !== 'string') invalidFields.push('phone_number');
+  if (typeof body.adres !== 'object') invalidFields.push('adres');
+  if (body.adres) {
+    if (typeof body.adres.street !== 'string') invalidFields.push('adres.street');
+    if (typeof body.adres.city !== 'string') invalidFields.push('adres.city');
+    if (typeof body.adres.state !== 'string') invalidFields.push('adres.state');
+    if (typeof body.adres.zip !== 'string') invalidFields.push('adres.zip');
+    if (typeof body.adres.country !== 'string') invalidFields.push('adres.country');
   }
+  if (body.isSeller !== undefined && typeof body.isSeller !== 'boolean') invalidFields.push('isSeller');
+
+  if (invalidFields.length > 0) {
+    return {
+      type: 'invalidFields',
+      keys: invalidFields
+    };
+  }
+
   return null;
 };
 

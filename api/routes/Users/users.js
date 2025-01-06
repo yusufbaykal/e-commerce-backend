@@ -17,13 +17,13 @@ router.get('/me', auth, async (req, res) => {
 
 router.post('/register', async (req, res) => {
   try {
-    await UserControllers.userRegister(req, res);
+    await UserControllers.registerUser(req, res);
   } catch (err) {}
 });
 
 router.put('/update', async (req, res) => {
   try {
-    await UserControllers.updatadUser(req, res);
+    await UserControllers.updateUser(req, res);
   } catch (err) {}
 });
 

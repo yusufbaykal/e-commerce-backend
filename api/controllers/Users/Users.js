@@ -66,7 +66,7 @@ const userMe = async (req, res) => {
   }
 };
 
-const userRegister = async (req, res) => {
+const registerUser = async (req, res) => {
   let body = req.body;
 
   try {
@@ -79,7 +79,7 @@ const userRegister = async (req, res) => {
           error: `Invalid fields: ${validationError.keys.join(', ')}`,
         });
       }
-      if (validationError.type === 'missingFields') {
+      if (validationError.type === 'missingFields' && !body.isSeller) {
         return res.status(400).json({
           status: 400,
           message: 'Missing Fields',
@@ -100,6 +100,11 @@ const userRegister = async (req, res) => {
 
     let password = bcrypt.hashSync(body.password, bcrypt.genSaltSync(10), null);
 
+    let roles = body.roles || ['USER']; 
+    if (body.isSeller) {
+      roles = ['SELLER'];
+    }
+
     let registerUser = await Users.create({
       email: body.email,
       password: password,
@@ -114,17 +119,18 @@ const userRegister = async (req, res) => {
         zip: body.adres.zip,
         country: body.adres.country,
       },
-      roles: body.roles,
+      roles: roles,
     });
 
-    return res.json({ status: 200, message: 'Created Users Successfully' });
+    return res.json({ status: 200, message: 'Created User Successfully' });
   } catch (err) {
     console.error('Error:', err);
-    return res.status(500).json({ status: 500, message: 'Auth Failed', error: err.message });
+    return res.status(500).json({ status: 500, message: 'Registration Failed', error: err.message });
   }
 };
 
-const updatadUser = async (req, res) => {
+
+const updateUser = async (req, res) => {
   let body = req.body;
 
   try {
@@ -156,7 +162,7 @@ const updatadUser = async (req, res) => {
       return res.status(404).json({ status: 404, message: 'User not found or no changes made' });
     }
 
-    return res.json({ status: 200, message: 'Updated Users Successfully' });
+    return res.json({ status: 200, message: 'Updated User Successfully' });
   } catch (err) {
     console.error('Error:', err);
     return res.status(500).json({ status: 500, message: 'Update User Failed', error: err.message });
@@ -180,11 +186,11 @@ const deleteUser = async (req, res) => {
       return res.status(404).json({ status: 404, message: 'User not found' });
     }
 
-    return res.json({ status: 200, message: 'Deleted Users Successfully' });
+    return res.json({ status: 200, message: 'Deleted User Successfully' });
   } catch (err) {
     console.error('Error:', err);
     return res.status(500).json({ status: 500, message: 'Delete User Failed', error: err.message });
   }
 };
 
-module.exports = { userLogin, userMe, userRegister, updatadUser, deleteUser };
+module.exports = { userLogin, userMe, registerUser, updateUser, deleteUser };
