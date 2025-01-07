@@ -13,7 +13,6 @@ A robust and scalable RESTful API for e-commerce applications built with Node.js
 - [Authentication](#authentication)
 - [API Endpoints](#api-endpoints)
 - [Error Handling](#error-handling)
-- [Database Schema](#database-schema)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -54,51 +53,52 @@ A robust and scalable RESTful API for e-commerce applications built with Node.js
 ## Installation
 
 1. Clone the repository:
-\`\`\`bash
+```bash
 git clone https://github.com/yourusername/e-commerce-backend.git
+
 cd e-commerce-backend
-\`\`\`
+```
 
 2. Install dependencies:
-\`\`\`bash
-npm install
-\`\`\`
+```bash
+yarn install
+```
 
 3. Set up environment variables:
-\`\`\`bash
+```bash
 cp .env.example .env
-\`\`\`
+```
 
 4. Start the development server:
-\`\`\`bash
-npm run dev
-\`\`\`
+```bash
+yarn dev
+```
 
 ## Environment Variables
 
 Create a .env file in the root directory with the following variables:
 
-\`\`\`env
+```env
 PORT=3000
 MONGODB_URI=mongodb://localhost:27017/ecommerce
 JWT_SECRET=your_jwt_secret
 JWT_EXPIRES_IN=24h
-\`\`\`
+```
 
 ## API Documentation
 
 API documentation is available through Swagger UI at:
-\`\`\`
+```
 http://localhost:3000/api-docs
-\`\`\`
+```
 
 ## Authentication
 
 The API uses JWT (JSON Web Tokens) for authentication. Include the token in the Authorization header:
 
-\`\`\`
+```
 Authorization: Bearer <your_token_here>
-\`\`\`
+```
 
 ## API Endpoints
 
@@ -149,13 +149,13 @@ Authorization: Bearer <your_token_here>
 
 The API uses a consistent error response format:
 
-\`\`\`json
+```json
 {
   "status": 400,
   "message": "Error message",
   "error": "Detailed error description"
 }
-\`\`\`
+```
 
 Common HTTP status codes:
 - 200: Success
@@ -165,56 +165,6 @@ Common HTTP status codes:
 - 403: Forbidden
 - 404: Not Found
 - 500: Internal Server Error
-
-## Database Schema
-
-### User Schema
-- email (String, required, unique)
-- password (String, required)
-- first_name (String, required)
-- last_name (String, required)
-- phone_number (String)
-- address (Object)
-- roles (Array of Strings)
-- is_active (Boolean)
-
-### Product Schema
-- name (String, required)
-- price (Number, required)
-- description (String)
-- category (String)
-- category_id (String)
-- image (String)
-- stock (Number)
-- seller_id (String)
-- is_active (Boolean)
-
-### Order Schema
-- user_id (String, required)
-- status (String, enum)
-- shipping_address (Object)
-- items (Array of Objects)
-- is_active (Boolean)
-
-### Cart Schema
-- user_id (String, required)
-- items (Array of Objects)
-  - product_id (String)
-  - quantity (Number)
-  - total_price (Number)
-
-### Category Schema
-- name (String, required)
-- is_active (Boolean)
-
-### Payment Schema
-- user_id (String, required)
-- order_id (String, required)
-- amount (Number, required)
-- currency (String)
-- status (String)
-- payment_method (String)
-- transaction_id (String)
 
 ## Contributing
 
