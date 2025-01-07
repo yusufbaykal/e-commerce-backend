@@ -1,0 +1,288 @@
+tags:
+  - name: Cart
+    description: Shopping cart operations
+
+paths:
+  /api/cart/get:
+    get:
+      tags:
+        - Cart
+      summary: Get user's cart
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_id
+              properties:
+                user_id:
+                  type: string
+      responses:
+        '200':
+          description: Cart retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Cart Retrieved Successfully
+                  data:
+                    type: object
+                    properties:
+                      user_id:
+                        type: string
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            product_id:
+                              type: string
+                            quantity:
+                              type: integer
+                            total_price:
+                              type: number
+        '404':
+          description: Cart not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 404
+                  message:
+                    type: string
+                    example: Cart Not Found
+                  error:
+                    type: string
+        '500':
+          description: Server error
+
+  /api/cart/add:
+    post:
+      tags:
+        - Cart
+      summary: Add item to cart
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_id
+                - product_id
+                - quantity
+              properties:
+                user_id:
+                  type: string
+                product_id:
+                  type: string
+                quantity:
+                  type: integer
+                  minimum: 1
+      responses:
+        '200':
+          description: Item added to cart successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Create Cart Successfully
+                  data:
+                    type: object
+                    properties:
+                      user_id:
+                        type: string
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            product_id:
+                              type: string
+                            quantity:
+                              type: integer
+                            total_price:
+                              type: number
+        '400':
+          description: Invalid request data
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 404
+                  message:
+                    type: string
+                    example: Product Not Found
+                  error:
+                    type: string
+        '500':
+          description: Server error
+
+  /api/cart/update:
+    put:
+      tags:
+        - Cart
+      summary: Update cart item quantity
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_id
+                - product_id
+                - quantity
+              properties:
+                user_id:
+                  type: string
+                product_id:
+                  type: string
+                quantity:
+                  type: integer
+                  minimum: 0
+                  description: Set to 0 to remove item from cart
+      responses:
+        '200':
+          description: Cart item updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Cart Updated Successfully
+                  data:
+                    type: object
+                    properties:
+                      user_id:
+                        type: string
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            product_id:
+                              type: string
+                            quantity:
+                              type: integer
+                            total_price:
+                              type: number
+        '400':
+          description: Invalid request data
+        '404':
+          description: Cart or product not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 404
+                  message:
+                    type: string
+                  error:
+                    type: string
+        '500':
+          description: Server error
+
+  /api/cart/delete:
+    delete:
+      tags:
+        - Cart
+      summary: Remove item from cart
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_id
+                - product_id
+              properties:
+                user_id:
+                  type: string
+                product_id:
+                  type: string
+      responses:
+        '200':
+          description: Item removed from cart successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Item Removed Successfully
+                  data:
+                    type: object
+                    properties:
+                      user_id:
+                        type: string
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            product_id:
+                              type: string
+                            quantity:
+                              type: integer
+                            total_price:
+                              type: number
+        '404':
+          description: Cart or item not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 404
+                  message:
+                    type: string
+                  error:
+                    type: string
+        '500':
+          description: Server error 

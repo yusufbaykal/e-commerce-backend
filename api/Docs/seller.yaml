@@ -1,0 +1,113 @@
+tags:
+  - name: Seller
+    description: Seller management operations
+
+paths:
+  /api/seller/{sellerId}/products:
+    get:
+      tags:
+        - Seller
+      summary: Get all products for a seller
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: sellerId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Products retrieved successfully
+        '400':
+          description: Invalid seller ID format
+        '404':
+          description: No products found
+        '500':
+          description: Server error
+
+  /api/seller/{sellerId}/orders:
+    get:
+      tags:
+        - Seller
+      summary: Get all orders for a seller
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: sellerId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Orders retrieved successfully
+        '400':
+          description: Invalid seller ID format
+        '404':
+          description: No orders found
+        '500':
+          description: Server error
+
+  /api/seller/{sellerId}/statistics:
+    get:
+      tags:
+        - Seller
+      summary: Get seller statistics
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: sellerId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Statistics retrieved successfully
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+
+  /api/seller/{sellerId}/performance:
+    get:
+      tags:
+        - Seller
+      summary: Get seller's product performance metrics
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: sellerId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Performance metrics retrieved successfully
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+
+  /api/seller/{sellerId}/daily-metrics:
+    get:
+      tags:
+        - Seller
+      summary: Get seller's daily performance metrics
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: sellerId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Daily metrics retrieved successfully
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error 

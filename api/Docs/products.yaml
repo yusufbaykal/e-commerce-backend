@@ -1,0 +1,123 @@
+tags:
+  - name: Products
+    description: Product management operations
+
+paths:
+  /api/product/create:
+    post:
+      tags:
+        - Products
+      summary: Create a new product
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - name
+                - price
+                - description
+                - category
+                - category_id
+                - stock
+                - seller_id
+              properties:
+                name:
+                  type: string
+                price:
+                  type: number
+                description:
+                  type: string
+                category:
+                  type: string
+                category_id:
+                  type: string
+                stock:
+                  type: integer
+                seller_id:
+                  type: string
+                image:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Product created successfully
+        '400':
+          description: Invalid request data
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+
+  /api/product/update:
+    put:
+      tags:
+        - Products
+      summary: Update a product
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                price:
+                  type: number
+                description:
+                  type: string
+                category:
+                  type: string
+                category_id:
+                  type: string
+                stock:
+                  type: integer
+      responses:
+        '200':
+          description: Product updated successfully
+        '400':
+          description: Invalid request data
+        '401':
+          description: Unauthorized
+        '404':
+          description: Product not found
+        '500':
+          description: Server error
+
+  /api/product/delete:
+    delete:
+      tags:
+        - Products
+      summary: Delete a product
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: string
+      responses:
+        '200':
+          description: Product deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Product not found
+        '500':
+          description: Server error 

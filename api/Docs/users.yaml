@@ -1,0 +1,315 @@
+tags:
+  - name: Users
+    description: User management operations
+
+paths:
+  /api/users/register:
+    post:
+      tags:
+        - Users
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - first_name
+                - last_name
+                - phone_number
+                - adres
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                phone_number:
+                  type: string
+                adres:
+                  type: object
+                  required:
+                    - street
+                    - city
+                    - state
+                    - zip
+                    - country
+                  properties:
+                    street:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                    zip:
+                      type: string
+                    country:
+                      type: string
+                roles:
+                  type: array
+                  items:
+                    type: string
+                    enum: [USER, SELLER, ADMIN]
+                isSeller:
+                  type: boolean
+                  description: If true, user will be registered as a seller
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Created User Successfully
+        '400':
+          description: Invalid request data or email exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 400
+                  message:
+                    type: string
+                  error:
+                    type: string
+        '500':
+          description: Server error
+
+  /api/users/login:
+    get:
+      tags:
+        - Users
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Auth Successful
+                  token:
+                    type: string
+        '400':
+          description: Invalid credentials
+        '404':
+          description: User not found
+        '500':
+          description: Server error
+
+  /api/users/me:
+    get:
+      tags:
+        - Users
+      summary: Get current user profile
+      security:
+        - Bearer: []
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      email:
+                        type: string
+                      first_name:
+                        type: string
+                      last_name:
+                        type: string
+                      phone_number:
+                        type: string
+                      adres:
+                        type: object
+                        properties:
+                          street:
+                            type: string
+                          city:
+                            type: string
+                          state:
+                            type: string
+                          zip:
+                            type: string
+                          country:
+                            type: string
+                      roles:
+                        type: array
+                        items:
+                          type: string
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+        '500':
+          description: Server error
+
+  /api/users/update:
+    put:
+      tags:
+        - Users
+      summary: Update user profile
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - first_name
+                - last_name
+                - phone_number
+                - adres
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                phone_number:
+                  type: string
+                adres:
+                  type: object
+                  required:
+                    - street
+                    - city
+                    - state
+                    - zip
+                    - country
+                  properties:
+                    street:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                    zip:
+                      type: string
+                    country:
+                      type: string
+                roles:
+                  type: array
+                  items:
+                    type: string
+                    enum: [USER, SELLER, ADMIN]
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Updated User Successfully
+        '400':
+          description: Invalid request data
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+        '500':
+          description: Server error
+
+  /api/users/delete:
+    delete:
+      tags:
+        - Users
+      summary: Delete user account
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        '200':
+          description: User deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: Deleted User Successfully
+        '400':
+          description: Invalid email
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+        '500':
+          description: Server error 

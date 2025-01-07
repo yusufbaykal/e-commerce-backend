@@ -1,0 +1,246 @@
+tags:
+  - name: Statistics
+    description: Statistical data operations
+
+paths:
+  /api/statistics/overall:
+    get:
+      tags:
+        - Statistics
+      summary: Get overall sales statistics
+      security:
+        - Bearer: []
+      parameters:
+        - in: query
+          name: startDate
+          schema:
+            type: string
+            format: date
+          required: false
+          description: Start date for statistics (defaults to 1 month ago)
+        - in: query
+          name: endDate
+          schema:
+            type: string
+            format: date
+          required: false
+          description: End date for statistics (defaults to current date)
+      responses:
+        '200':
+          description: Overall statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      totalSales:
+                        type: number
+                      totalOrders:
+                        type: integer
+                      averageOrderValue:
+                        type: number
+                      totalProducts:
+                        type: integer
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/statistics/by-category:
+    get:
+      tags:
+        - Statistics
+      summary: Get sales statistics by category
+      security:
+        - Bearer: []
+      parameters:
+        - in: query
+          name: startDate
+          schema:
+            type: string
+            format: date
+          required: false
+          description: Start date for statistics (defaults to 1 month ago)
+        - in: query
+          name: endDate
+          schema:
+            type: string
+            format: date
+          required: false
+          description: End date for statistics (defaults to current date)
+      responses:
+        '200':
+          description: Category statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        category:
+                          type: string
+                        totalSales:
+                          type: number
+                        orderCount:
+                          type: integer
+                        averageOrderValue:
+                          type: number
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/statistics/top-products:
+    get:
+      tags:
+        - Statistics
+      summary: Get top selling products
+      security:
+        - Bearer: []
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+          required: false
+          description: Number of top products to retrieve (defaults to 10)
+      responses:
+        '200':
+          description: Top products retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        productId:
+                          type: string
+                        name:
+                          type: string
+                        totalSales:
+                          type: number
+                        quantitySold:
+                          type: integer
+                        category:
+                          type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/statistics/daily-report:
+    get:
+      tags:
+        - Statistics
+      summary: Get daily sales report
+      security:
+        - Bearer: []
+      parameters:
+        - in: query
+          name: startDate
+          schema:
+            type: string
+            format: date
+          required: false
+          description: Start date for report (defaults to 30 days ago)
+        - in: query
+          name: endDate
+          schema:
+            type: string
+            format: date
+          required: false
+          description: End date for report (defaults to current date)
+      responses:
+        '200':
+          description: Daily report retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date
+                        totalSales:
+                          type: number
+                        orderCount:
+                          type: integer
+                        averageOrderValue:
+                          type: number
+                        topSellingProducts:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              productId:
+                                type: string
+                              name:
+                                type: string
+                              quantitySold:
+                                type: integer
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error' 

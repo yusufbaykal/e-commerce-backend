@@ -8,6 +8,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const config = require('./config');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger');
 
 
 const setupSecurity = require('./middleware/Security/security');
@@ -47,6 +49,9 @@ app.use('/api/orders', OrderRouter);
 app.use('/api/payment', PaymentRouter);
 app.use('/api/seller', SellerRouter);
 app.use('/api/statistics', statisticsRouter);
+
+// Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 app.use((req, res, next) => {
